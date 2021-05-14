@@ -25,6 +25,10 @@ app.get("/:collection", (req, res) => {
 
 app.get("/:collection/:id", async (req, res) => {
   const { collection, id } = req.params;
+
+  const document = await db.readOne({ collection, id });
+
+  res.json(document);
 });
 
 app.post("/:collection", async (req, res) => {
