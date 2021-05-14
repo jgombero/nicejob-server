@@ -1,4 +1,5 @@
 const express = require("express");
+const crypto = require("crypto");
 
 // TODO: Change the path when I publish the package to npm and install it in the project
 const Database = require("../database-package/index");
@@ -26,8 +27,14 @@ app.get("/:collection/:id", async (req, res) => {
   const { collection, id } = req.params;
 });
 
-app.post("/:collection", (req, res) => {
+app.post("/:collection", async (req, res) => {
   const { collection } = req.params;
+  const document = req.body;
+  const id = crypto.randomBytes(12).toString("base64");
+
+  await db.write({ collection, id }, document);
+
+  res.json(document);
 });
 
 app.post("/:collection/:id", async (req, res) => {
