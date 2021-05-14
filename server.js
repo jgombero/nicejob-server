@@ -22,7 +22,7 @@ app.get("/:collection", (req, res) => {
   const { limit } = req.query;
 });
 
-app.get("/:collection/:id", (req, res) => {
+app.get("/:collection/:id", async (req, res) => {
   const { collection, id } = req.params;
 });
 
@@ -30,8 +30,13 @@ app.post("/:collection", (req, res) => {
   const { collection } = req.params;
 });
 
-app.post("/:collection/:id", (req, res) => {
+app.post("/:collection/:id", async (req, res) => {
   const { collection, id } = req.params;
+  const document = req.body;
+
+  await db.write({ collection, id }, document);
+
+  res.json("Entry added!");
 });
 
 app.listen(PORT, () => {
