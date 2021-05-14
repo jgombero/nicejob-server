@@ -36,7 +36,7 @@ app.post("/:collection/:id", async (req, res) => {
 
   await db.write({ collection, id }, document);
 
-  res.json("Entry added!");
+  res.json(document);
 });
 
 app.listen(PORT, () => {
