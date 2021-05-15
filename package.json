@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@google-cloud/firestore": "^4.11.1",
+    "@jgombero/database-package": "^1.0.0",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "object-sizeof": "^1.6.1"
