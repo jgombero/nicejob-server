@@ -1,8 +1,7 @@
 const express = require("express");
 const crypto = require("crypto");
 
-// TODO: Change the path when I publish the package to npm and install it in the project
-const Database = require("../database-package/index");
+const Database = require("@jgombero/database-package");
 
 require("dotenv").config();
 
@@ -17,6 +16,21 @@ const db = new Database({
 });
 
 app.use(express.json());
+
+app.get("/healthcheck", (req, res) => {
+  const healthcheck = {
+    uptime: process.uptime(),
+    message: "OK",
+    timestamp: Date.now(),
+  };
+
+  try {
+    res.send(healthcheck);
+  } catch (e) {
+    healthcheck.message = e;
+    res.status(503).send();
+  }
+});
 
 app.get("/:collection", async (req, res) => {
   const { collection } = req.params;
