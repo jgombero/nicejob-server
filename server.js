@@ -18,9 +18,14 @@ const db = new Database({
 
 app.use(express.json());
 
-app.get("/:collection", (req, res) => {
+app.get("/:collection", async (req, res) => {
   const { collection } = req.params;
-  const { limit } = req.query;
+  const { limit = 10 } = req.query;
+  const filters = req.body;
+
+  const document = await db.readMany({ collection }, filters);
+
+  res.json(document.slice(0, limit));
 });
 
 app.get("/:collection/:id", async (req, res) => {
