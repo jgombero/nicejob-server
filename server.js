@@ -5,14 +5,14 @@ const Database = require("@jgombero/database-package");
 
 require("dotenv").config();
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
 const db = new Database({
   project_id: process.env.PROJECT_ID,
-  cache_max_age: 1800,
-  cache_allocated_memory: 50,
+  cache_max_age: 3600,
+  cache_allocated_memory: 64,
 });
 
 app.use(express.json());
