@@ -28,7 +28,7 @@ app.get("/healthcheck", (req, res) => {
     res.send(healthcheck);
   } catch (e) {
     healthcheck.message = e;
-    res.status(503).send();
+    res.status(503).send(healthcheck);
   }
 });
 
@@ -37,17 +37,25 @@ app.get("/:collection", async (req, res) => {
   const { limit = 10 } = req.query;
   const filters = req.body;
 
-  const document = await db.readMany({ collection }, filters);
+  try {
+    const document = await db.readMany({ collection }, filters);
 
-  res.json(document.slice(0, limit));
+    res.json(document.slice(0, limit));
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 app.get("/:collection/:id", async (req, res) => {
   const { collection, id } = req.params;
 
-  const document = await db.readOne({ collection, id });
+  try {
+    const document = await db.readOne({ collection, id });
 
-  res.json(document);
+    res.json(document);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 app.post("/:collection", async (req, res) => {
@@ -55,18 +63,26 @@ app.post("/:collection", async (req, res) => {
   const document = req.body;
   const id = crypto.randomBytes(12).toString("base64");
 
-  await db.write({ collection, id }, document);
+  try {
+    await db.write({ collection, id }, document);
 
-  res.json(document);
+    res.json(document);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 app.post("/:collection/:id", async (req, res) => {
   const { collection, id } = req.params;
   const document = req.body;
 
-  await db.write({ collection, id }, document);
+  try {
+    await db.write({ collection, id }, document);
 
-  res.json(document);
+    res.json(document);
+  } catch (error) {
+    res.send(400).send(error);
+  }
 });
 
 app.listen(PORT, () => {
