@@ -27,7 +27,7 @@ app.get("/healthcheck", (req, res) => {
   try {
     res.send(healthcheck);
   } catch (e) {
-    healthcheck.message = e;
+    healthcheck.message = e.message;
     res.status(503).send(healthcheck);
   }
 });
@@ -42,7 +42,7 @@ app.get("/:collection", async (req, res) => {
 
     res.json(document.slice(0, limit));
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send(error.message);
   }
 });
 
@@ -54,7 +54,7 @@ app.get("/:collection/:id", async (req, res) => {
 
     res.json(document);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send(error.message);
   }
 });
 
@@ -68,7 +68,7 @@ app.post("/:collection", async (req, res) => {
 
     res.json(document);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send(error.message);
   }
 });
 
@@ -81,7 +81,7 @@ app.post("/:collection/:id", async (req, res) => {
 
     res.json(document);
   } catch (error) {
-    res.send(400).send(error);
+    res.send(400).send(error.message);
   }
 });
 
