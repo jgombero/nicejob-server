@@ -61,7 +61,8 @@ app.get("/:collection/:id", async (req, res) => {
 app.post("/:collection", async (req, res) => {
   const { collection } = req.params;
   const document = req.body;
-  const id = crypto.randomBytes(12).toString("base64");
+  let id = crypto.randomBytes(12).toString("base64");
+  id = id.replace("/", "-");
 
   try {
     await db.write({ collection, id }, document);
